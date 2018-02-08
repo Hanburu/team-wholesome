@@ -14,3 +14,5 @@ This is a repository that contains the development of a Control Engineering cour
 * **Andrés Marín** - *Initial work* - [Hanburu](https://github.com/hanburu)
 
 * **Cesar Martinez** - *Initial work* - [alfies12](https://github.com/alfies12)
+
+* **Valeria González** - *Inital work* - [AnaValeriaGM](https://github.com/AnaValeriaGM)

@@ -1,6 +1,6 @@
 /* Here will be the code for the first lab of the course of Control Engineering */
 /* CENTRO DE ENSEÑANZA TÉCNICA Y SUPERIOR
- * Ingeneering in Cybernetics Electronics
+ * Engineering in Cybernetics Electronics
  * Subject: Control Engineering
  * 
  * Lab Practice 1: Sensor Temperature Control
@@ -9,8 +9,15 @@
  * Team members: Ana Valeria González
  *               Arturo López
  *               César Martínez
- *               Fernando Raúl Cotez
+ *               Fernando Raúl Cortez
+ *               Andrés Marín
  */
+
+//Include LCD library
+#include <LiquidCrystal.h>
+
+//Declare LCD Object
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
 // Declare pin numbers
 const int sensorPin = A0;
@@ -76,7 +83,10 @@ void setup() {
   // Set the mode for the used pins
   pinMode(sensorPin, INPUT);
   pinMode(fanPin, OUTPUT);
-
+  // set up the LCD's number of columns and rows: 
+  lcd.begin(16, 2);
+  // Print a message to the LCD.
+  lcd.print("Control B6");
   // Set the baud rate for the Serial Monitor
   Serial.begin(9600);
 }
@@ -100,6 +110,12 @@ void loop() {
 
   // Set the PWM of the fanPin to control its speed according to the temperature.
   analogWrite(fanPin, getFanPWMFromTemperature(temperatureValue));
+  
+  // set the cursor to column 0, line 1
+  // (note: line 1 is the second row, since counting begins with 0):
+  lcd.setCursor(0, 1);
+  //Print a message to second line of LCD
+  lcd.print(temperatureValue);
   
   // Repeat the cycle once per second
   delay(1000);

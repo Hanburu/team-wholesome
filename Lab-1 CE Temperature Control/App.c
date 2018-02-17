@@ -17,25 +17,26 @@
 #include <LiquidCrystal.h>
 
 //Declare LCD Object
-LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+const int rs = 12, en = 11, d4 = 9, d5 = 4, d6 = 3, d7 = 2;
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
 // Declare pin numbers
 const int sensorPin = A0;
-const int fanPin = 9;
+const int fanPin = 5;
 
 // Declare a constant that will hold the voltage/degree ration of the temperature sensor [V/°C]
 const double VOLTAGE_TEMP_RATIO = 0.01;
 
 // Declare lowest boundary of the temperature intervals
 const int TEMP_INTERVAL_1 = 20;
-const int TEMP_INTERVAL_2 = 22;
-const int TEMP_INTERVAL_3 = 25;
-const int TEMP_INTERVAL_4 = 28;
+const int TEMP_INTERVAL_2 = 25;
+const int TEMP_INTERVAL_3 = 30;
+const int TEMP_INTERVAL_4 = 35;
 
 // Declare the PWM values for the fan speed depending on each temperature interval
-const int PWM_INTERVAL_1 = 70;
-const int PWM_INTERVAL_2 = 130;
-const int PWM_INTERVAL_3 = 190;
+const int PWM_INTERVAL_1 = 0;
+const int PWM_INTERVAL_2 = 85;
+const int PWM_INTERVAL_3 = 170;
 const int PWM_INTERVAL_4 = 255; 
 
 /*
@@ -115,8 +116,10 @@ void loop() {
   // (note: line 1 is the second row, since counting begins with 0):
   lcd.setCursor(0, 1);
   //Print a message to second line of LCD
+  lcd.print("Temp: ");
+  //Set de cursor for the Temperature Value
+  lcd.setCursor(6, 1);
   lcd.print(temperatureValue);
-  
   // Repeat the cycle once per second
   delay(1000);
 }

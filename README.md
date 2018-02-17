@@ -15,8 +15,8 @@ This repository contains the development of the Control Engineering course and t
 * **Cesar Martinez** - *Initial work* - [alfies12](https://github.com/alfies12)
 
 # Table of Contents
-1. Lab-1 CE Temperature Control(#lab-1 CE Temperature Control)
-2. Next Lab(#next Lab)
+1. [Lab-1 CE Temperature Control](#lab-1)
+2. [Next Lab](#nextLab)
 
 ## Lab-1 CE Temperature Control
 

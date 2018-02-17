@@ -1,6 +1,6 @@
 # team-wholesome
 
-This is a repository that contains the development of a Control Engineering course and a Electronic Instrumentation course applications.
+This repository contains the development of the Control Engineering course and the Electronic Instrumentation course applications.
 
 ## Requisites
 * Coming soon.

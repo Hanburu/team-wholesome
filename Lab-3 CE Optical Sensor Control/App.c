@@ -4,7 +4,7 @@
  * Subject: Control Engineering
  * 
  * Lab Practice 3: Optical Sensor Control
- * Date: February 9th, 2018
+ * Date: -
  * 
  * Team members: Ana Valeria González
  *               Arturo López

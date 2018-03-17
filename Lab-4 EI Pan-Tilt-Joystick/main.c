@@ -22,17 +22,19 @@
 #include <stdbool.h>
 
 /* Application Defines */
-#define TIMER_PERIOD 32000
+#define TIMER_A_PERIOD 32000
 
 /* Statics */
 static volatile uint16_t x_ADC_Res;
 static volatile uint16_t y_ADC_Res;
+static volatile uint_fast16_t normalized_x_Res;
+static volatile uint_fast16_t normalized_y_Res;
 
 Timer_A_PWMConfig pwmConfig_x =
 {
         TIMER_A_CLOCKSOURCE_SMCLK,
         TIMER_A_CLOCKSOURCE_DIVIDER_64,
-        TIMER_PERIOD,
+        TIMER_A_PERIOD,
         TIMER_A_CAPTURECOMPARE_REGISTER_1,
         TIMER_A_OUTPUTMODE_RESET_SET,
         0
@@ -42,7 +44,7 @@ Timer_A_PWMConfig pwmConfig_y =
 {
         TIMER_A_CLOCKSOURCE_SMCLK,
         TIMER_A_CLOCKSOURCE_DIVIDER_64,
-        TIMER_PERIOD,
+        TIMER_A_PERIOD,
         TIMER_A_CAPTURECOMPARE_REGISTER_2,
         TIMER_A_OUTPUTMODE_RESET_SET,
         0
@@ -54,15 +56,8 @@ int main(void)
     MAP_WDT_A_holdTimer();
 
     //P2.4 and P2.5 output
-    GPIO_setAsPeripheralModuleFunctionOutputPin(
-        GPIO_PORT_P2,
-        GPIO_PIN4 + GPIO_PIN5,
-        GPIO_PRIMARY_MODULE_FUNCTION
-        );
-
-    /* Initializing Variables */
-    x_ADC_Res= 0;
-    y_ADC_Res= 0;
+    MAP_GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P2, GPIO_PIN4,GPIO_PRIMARY_MODULE_FUNCTION);
+    MAP_GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P2, GPIO_PIN5,GPIO_PRIMARY_MODULE_FUNCTION);
 
     /* Setting Flash wait state */
     MAP_FlashCtl_setWaitState(FLASH_BANK0, 2);
@@ -92,7 +87,7 @@ int main(void)
     MAP_ADC14_configureConversionMemory(ADC_MEM0, ADC_VREFPOS_AVCC_VREFNEG_VSS,
     ADC_INPUT_A0, false);
     MAP_ADC14_configureConversionMemory(ADC_MEM1, ADC_VREFPOS_AVCC_VREFNEG_VSS,
-        ADC_INPUT_A1, false);
+    ADC_INPUT_A1, false);
 
     /* Configuring Sample Timer */
     MAP_ADC14_enableSampleTimer(ADC_AUTOMATIC_ITERATION);
@@ -112,28 +107,41 @@ int main(void)
     MAP_Interrupt_enableSleepOnIsrExit();
     MAP_Interrupt_enableMaster();
 
-    /* Sleeping when not in use */
+    /* Sleeping when not in use 
     while (1)
     {
         MAP_PCM_gotoLPM0();
-    }
+    }*/
 }
 
 void ADC14_IRQHandler(void)
 {
-    volatile uint_fast16_t normalized_x_Res;
-    volatile uint_fast16_t normalized_y_Res;
+
     uint64_t status = MAP_ADC14_getEnabledInterruptStatus();
     MAP_ADC14_clearInterruptFlag(status);
 
     if (ADC_INT1 & status)
     {
-        normalized_x_Res = (x_ADC_Res * 5.0f) / 16384;
-        normalized_y_Res = (y_ADC_Res * 5.0f) / 16384;
+        x_ADC_Res= MAP_ADC14_getResult(ADC_MEM0);
+        y_ADC_Res= MAP_ADC14_getResult(ADC_MEM1);
+        if ((x_ADC_Res <= (x_ADC_Res * 1.1)) && (x_ADC_Res >= (x_ADC_Res * 0.9))){
+
+        }
+        else{
+            normalized_x_Res = 2*(x_ADC_Res);
+        }
+        if ((y_ADC_Res <= (y_ADC_Res * 1.1)) && (y_ADC_Res >= (y_ADC_Res * 0.9))){
+
+        }
+        else{
+            normalized_y_Res = 2*(y_ADC_Res);
+        }
         pwmConfig_x.dutyCycle = normalized_x_Res;
         pwmConfig_y.dutyCycle = normalized_y_Res;
         MAP_Timer_A_generatePWM(TIMER_A0_BASE, &pwmConfig_x);
         MAP_Timer_A_generatePWM(TIMER_A0_BASE, &pwmConfig_y);
         MAP_ADC14_toggleConversionTrigger();
     }
+    __delay_cycles(10000);
 }
+

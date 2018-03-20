@@ -116,32 +116,31 @@ int main(void)
 
 void ADC14_IRQHandler(void)
 {
-
+    /* Get the status of the interrupt */
     uint64_t status = MAP_ADC14_getEnabledInterruptStatus();
     MAP_ADC14_clearInterruptFlag(status);
 
     if (ADC_INT1 & status)
     {
+        /* Get the results of the ADC sampling process */
         x_ADC_Res= MAP_ADC14_getResult(ADC_MEM0);
         y_ADC_Res= MAP_ADC14_getResult(ADC_MEM1);
-        if ((x_ADC_Res <= (x_ADC_Res * 1.1)) && (x_ADC_Res >= (x_ADC_Res * 0.9))){
 
-        }
-        else{
+        /* Conditions to not change PWM if the change in the input signal is very small */
+        if (!((x_ADC_Res <= (x_ADC_Res * 1.1)) && (x_ADC_Res >= (x_ADC_Res * 0.9)))){
             normalized_x_Res = 2*(x_ADC_Res);
         }
-        if ((y_ADC_Res <= (y_ADC_Res * 1.1)) && (y_ADC_Res >= (y_ADC_Res * 0.9))){
-
-        }
-        else{
+        if (!((y_ADC_Res <= (y_ADC_Res * 1.1)) && (y_ADC_Res >= (y_ADC_Res * 0.9)))){
             normalized_y_Res = 2*(y_ADC_Res);
         }
+        /* Set PWM dutyCycles */
         pwmConfig_x.dutyCycle = normalized_x_Res;
         pwmConfig_y.dutyCycle = normalized_y_Res;
         MAP_Timer_A_generatePWM(TIMER_A0_BASE, &pwmConfig_x);
         MAP_Timer_A_generatePWM(TIMER_A0_BASE, &pwmConfig_y);
+        /* Set LOW the conversion trigger to restart the sampling */
         MAP_ADC14_toggleConversionTrigger();
     }
+    /* Delay method */
     __delay_cycles(10000);
 }
-

@@ -30,14 +30,15 @@ int main(void)
     MAP_WDT_A_holdTimer();
 
     /* Configuring outputs */
-    MAP_GPIO_setAsOutputPin(GPIO_PORT_P3, GPIO_PIN0);
-    MAP_GPIO_setAsOutputPin(GPIO_PORT_P3, GPIO_PIN1);
-    MAP_GPIO_setAsOutputPin(GPIO_PORT_P3, GPIO_PIN2);
-    MAP_GPIO_setAsOutputPin(GPIO_PORT_P3, GPIO_PIN3);
-    MAP_GPIO_setAsOutputPin(GPIO_PORT_P3, GPIO_PIN4);
-    MAP_GPIO_setAsOutputPin(GPIO_PORT_P3, GPIO_PIN5);
-    MAP_GPIO_setAsOutputPin(GPIO_PORT_P3, GPIO_PIN6);
-    MAP_GPIO_setAsOutputPin(GPIO_PORT_P3, GPIO_PIN7);
+    MAP_GPIO_setAsOutputPin(GPIO_PORT_P2, GPIO_PIN7);
+    MAP_GPIO_setAsOutputPin(GPIO_PORT_P2, GPIO_PIN6);
+    MAP_GPIO_setAsOutputPin(GPIO_PORT_P2, GPIO_PIN4);
+    MAP_GPIO_setAsOutputPin(GPIO_PORT_P5, GPIO_PIN6);
+    MAP_GPIO_setAsOutputPin(GPIO_PORT_P6, GPIO_PIN6);
+    MAP_GPIO_setAsOutputPin(GPIO_PORT_P6, GPIO_PIN7);
+    MAP_GPIO_setAsOutputPin(GPIO_PORT_P2, GPIO_PIN3);
+    MAP_GPIO_setAsOutputPin(GPIO_PORT_P5, GPIO_PIN1);
+ 
     /* Configuring P1.1 as an input and enabling interrupts */
     MAP_GPIO_setAsInputPinWithPullUpResistor(GPIO_PORT_P1, GPIO_PIN1);
     MAP_GPIO_clearInterruptFlag(GPIO_PORT_P1, GPIO_PIN1);
@@ -106,61 +107,6 @@ void ADC14_IRQHandler(void)
 
     if (ADC_INT1 & status)
     {
-        if (input_ADC >= (ref_ADC * 0.125)){
-            GPIO_setOutputHighOnPin(GPIO_PORT_P3, GPIO_PIN0);
-        }
-        else{
-            GPIO_setOutputLowOnPin(GPIO_PORT_P3, GPIO_PIN0);
-        }
-        if (input_ADC >= (ref_ADC * 0.250)){
-            MAP_ADC14_toggleConversionTrigger();
-            GPIO_setOutputHighOnPin(GPIO_PORT_P3, GPIO_PIN1);
-        }
-        else{
-            GPIO_setOutputLowOnPin(GPIO_PORT_P3, GPIO_PIN1);
-        }
-        if (input_ADC >= (ref_ADC * 0.375)){
-            MAP_ADC14_toggleConversionTrigger();
-            GPIO_setOutputHighOnPin(GPIO_PORT_P3, GPIO_PIN2);
-        }
-        else{
-            GPIO_setOutputLowOnPin(GPIO_PORT_P3, GPIO_PIN2);
-        }
-        if (input_ADC >= (ref_ADC * 0.500)){
-            MAP_ADC14_toggleConversionTrigger();
-            GPIO_setOutputHighOnPin(GPIO_PORT_P3, GPIO_PIN3);
-        }
-        else{
-            GPIO_setOutputLowOnPin(GPIO_PORT_P3, GPIO_PIN3);
-        }
-        if (input_ADC >= (ref_ADC * 0.625)){
-            MAP_ADC14_toggleConversionTrigger();
-            GPIO_setOutputHighOnPin(GPIO_PORT_P3, GPIO_PIN4);
-        }
-        else{
-            GPIO_setOutputLowOnPin(GPIO_PORT_P3, GPIO_PIN4);
-        }
-        if (input_ADC >= (ref_ADC * 0.750)){
-            MAP_ADC14_toggleConversionTrigger();
-            GPIO_setOutputHighOnPin(GPIO_PORT_P3, GPIO_PIN5);
-        }
-        else{
-            GPIO_setOutputLowOnPin(GPIO_PORT_P3, GPIO_PIN5);
-        }
-        if (input_ADC >= (ref_ADC * 0.875)){
-            MAP_ADC14_toggleConversionTrigger();
-            GPIO_setOutputHighOnPin(GPIO_PORT_P3, GPIO_PIN6);
-        }
-        else{
-            GPIO_setOutputLowOnPin(GPIO_PORT_P3, GPIO_PIN6);
-        }
-        if (input_ADC >= (ref_ADC * 1.000)){
-            MAP_ADC14_toggleConversionTrigger();
-            GPIO_setOutputHighOnPin(GPIO_PORT_P3, GPIO_PIN7);
-        }
-        else{
-            GPIO_setOutputLowOnPin(GPIO_PORT_P3, GPIO_PIN7);
-        }
         MAP_ADC14_toggleConversionTrigger();
     }
 }

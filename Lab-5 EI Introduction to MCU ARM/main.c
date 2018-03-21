@@ -136,6 +136,9 @@ void ADC14_IRQHandler(void)
             dot_Display(input_ADC,ref_ADC);
         }
         MAP_ADC14_toggleConversionTrigger();
+     
+        /* Delay method */
+        __delay_cycles(10000);
     }
 }
 

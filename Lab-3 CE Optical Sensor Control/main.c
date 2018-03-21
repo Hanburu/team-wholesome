@@ -124,19 +124,33 @@ int main(void)
     MAP_Interrupt_enableSleepOnIsrExit();
     MAP_Interrupt_enableMaster();
 
-    /* Sleeping when not in use */
+    /* Sleeping when not in use 
     while (1)
     {
         MAP_PCM_gotoLPM0();
-    }
+    }*/
 }
 
 void ADC14_IRQHandler(void)
 {
+    /* Get the status of the interrupt */
     uint64_t status = MAP_ADC14_getEnabledInterruptStatus();
     MAP_ADC14_clearInterruptFlag(status);
 
-    if (ADC_INT3 & status)
+    if (ADC_INT1 & status)
     {
+        /* Get the results of the ADC sampling process */
+        first_ADC= MAP_ADC14_getResult(ADC_MEM0);
+        second_ADC= MAP_ADC14_getResult(ADC_MEM0);
+        third_ADC= MAP_ADC14_getResult(ADC_MEM0);
+        fourth_ADC= MAP_ADC14_getResult(ADC_MEM0);
+
+        /* Conditions to not change PWM if the change in the input signal is very small 
+        Here needs to got operatons and stuff to assgn PWM*/
+       
+        /* Set LOW the conversion trigger to restart the sampling */
+        MAP_ADC14_toggleConversionTrigger();
     }
+    /* Delay method */
+    __delay_cycles(10000);
 }

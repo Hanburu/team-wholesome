@@ -98,20 +98,12 @@ void setup() {
 void loop() {
   // Read the digital value given by the sensorPin's ADC
   int sensorValue = analogRead(sensorPin);
-
   // Convert the read digital value into a voltage (analog) value
   double voltageValue = convertDigitalToVoltage(sensorValue);
-
   // Convert the read voltage into a temperature in degrees Celsius
   double temperatureValue = convertVoltageToCelsius(voltageValue, VOLTAGE_TEMP_RATIO);
-
-  // Print to the Serial Monitor the current temperature [°C] for testing purposes
-  Serial.print("Temperature: ");
-  Serial.println(temperatureValue);
-
   // Set the PWM of the fanPin to control its speed according to the temperature.
   analogWrite(fanPin, getFanPWMFromTemperature(temperatureValue));
-  
   // set the cursor to column 0, line 1
   // (note: line 1 is the second row, since counting begins with 0):
   lcd.setCursor(0, 1);

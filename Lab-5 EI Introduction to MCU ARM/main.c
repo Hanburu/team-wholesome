@@ -124,7 +124,7 @@ void ADC14_IRQHandler(void)
     MAP_ADC14_clearInterruptFlag(status);
     /* Get values from the ADC conversion*/
     input_ADC= MAP_ADC14_getResult(ADC_MEM0);
-    ref_ADC= MAP_ADC14_getResult(ADC_MEM0);
+    ref_ADC= MAP_ADC14_getResult(ADC_MEM1);
 
     if (ADC_INT1 & status)
     {

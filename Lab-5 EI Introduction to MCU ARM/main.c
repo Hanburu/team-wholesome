@@ -114,6 +114,70 @@ void bar_Display(int input_ADC, int ref_ADC){
 
 /* Code for the Dot Display */
 void dot_Display(int input_ADC, int ref_ADC){
+volatile uint16_t inovref = input_ADC / ref_ADC;
+if (0 < inovref && inovref <=((1/8)*(ref_ADC)))
+{		
+	GPIO_setOutputHighOnPin (GPIO_PORT_P2, GPIO_PIN7 );
+	GPIO_setOutputLowOnPin (GPIO_PORT_P2, GPIO_PIN6 + GPIO_PIN4 + GPIO_PIN3);
+	GPIO_setOutputLowOnPin (GPIO_PORT_P5, GPIO_PIN6 + GPIO_PIN1 );
+	GPIO_setOutputLowOnPin (GPIO_PORT_P6, GPIO_PIN6 + GPIO_PIN7 );
+}
+else if (((1/8)*(ref_ADC)) < inovref && inovref <=((2/8)*(ref_ADC)))
+{
+	GPIO_setOutputHighOnPin	(GPIO_PORT_P2, GPIO_PIN6 );
+	GPIO_setOutputLowOnPin (GPIO_PORT_P2, GPIO_PIN4 + GPIO_PIN3 + GPIO_PIN7 );
+	GPIO_setOutputLowOnPin (GPIO_PORT_P5, GPIO_PIN6 + GPIO_PIN1 );
+	GPIO_setOutputLowOnPin (GPIO_PORT_P6, GPIO_PIN6 + GPIO_PIN7 );
+}
+else if (((2/8)*(ref_ADC)) < inovref && inovref <=((3/8)*(ref_ADC)))
+{
+	GPIO_setOutputHighOnPin	(	GPIO_PORT_P2, GPIO_PIN4 );
+	GPIO_setOutputLowOnPin (GPIO_PORT_P2, GPIO_PIN3 + GPIO_PIN7 + GPIO_PIN6 );
+	GPIO_setOutputLowOnPin (GPIO_PORT_P5, GPIO_PIN6 + GPIO_PIN1 );
+	GPIO_setOutputLowOnPin (GPIO_PORT_P6, GPIO_PIN6 + GPIO_PIN7 );
+}
+else if (((3/8)*(ref_ADC)) < inovref && inovref <=((4/8)*(ref_ADC)))
+{
+	GPIO_setOutputHighOnPin	(	GPIO_PORT_P5, GPIO_PIN6 );
+	GPIO_setOutputLowOnPin	(	GPIO_PORT_P2, GPIO_PIN3 + GPIO_PIN7 + GPIO_PIN6 + GPIO_PIN4 );
+	GPIO_setOutputLowOnPin (GPIO_PORT_P5, GPIO_PIN1 );
+	GPIO_setOutputLowOnPin (GPIO_PORT_P6, GPIO_PIN6 + GPIO_PIN7 );
+}
+else if (((4/8)*(ref_ADC)) < inovref && inovref <=((5/8)*(ref_ADC)))
+{
+	GPIO_setOutputHighOnPin	(	GPIO_PORT_P6, GPIO_PIN6 );
+	GPIO_setOutputLowOnPin	(	GPIO_PORT_P2, GPIO_PIN7 + GPIO_PIN6 + GPIO_PIN4 + GPIO_PIN3);
+	GPIO_setOutputLowOnPin (GPIO_PORT_P5, GPIO_PIN1 +  GPIO_PIN6 );
+	GPIO_setOutputLowOnPin (GPIO_PORT_P6, GPIO_PIN7 );
+}
+else if (((5/8)*(ref_ADC)) < inovref && inovref <=((6/8)*(ref_ADC)))
+{
+	GPIO_setOutputHighOnPin	(	GPIO_PORT_P6, GPIO_PIN7 );
+	GPIO_setOutputLowOnPin	(	GPIO_PORT_P2, GPIO_PIN7 + GPIO_PIN6 + GPIO_PIN4 + GPIO_PIN3 );
+	GPIO_setOutputLowOnPin	(	GPIO_PORT_P6, GPIO_PIN6  );
+	GPIO_setOutputLowOnPin (GPIO_PORT_P5, GPIO_PIN1 + GPIO_PIN6 );
+}
+else if (((6/8)*(ref_ADC)) < inovref && inovref <=((7/8)*(ref_ADC)))
+{
+	GPIO_setOutputHighOnPin	(	GPIO_PORT_P2, GPIO_PIN3 );
+	GPIO_setOutputLowOnPin	(	GPIO_PORT_P2, GPIO_PIN7 + GPIO_PIN6 + GPIO_PIN4 );
+	GPIO_setOutputLowOnPin	(	GPIO_PORT_P6, GPIO_PIN6 + GPIO_PIN7 );
+	GPIO_setOutputLowOnPin (GPIO_PORT_P5, GPIO_PIN1 + GPIO_PIN6 );
+}
+else if (((7/8)*(ref_ADC)) < inovref && inovref <= ref_ADC)
+{
+	GPIO_setOutputHighOnPin	(	GPIO_PORT_P5, GPIO_PIN1 );
+	GPIO_setOutputLowOnPin	(	GPIO_PORT_P2, GPIO_PIN7 + GPIO_PIN6 + GPIO_PIN4 + GPIO_PIN3 );
+	GPIO_setOutputLowOnPin	(	GPIO_PORT_P5, GPIO_PIN6  );
+	GPIO_setOutputLowOnPin	(	GPIO_PORT_P6, GPIO_PIN6 + GPIO_PIN7 );	
+}
+else
+{
+	GPIO_setOutputHighOnPin	(	GPIO_PORT_P5, GPIO_PIN1 );
+	GPIO_setOutputLowOnPin	(	GPIO_PORT_P2, GPIO_PIN7 + GPIO_PIN6 + GPIO_PIN4 + GPIO_PIN3 );
+	GPIO_setOutputLowOnPin	(	GPIO_PORT_P5, GPIO_PIN6  );
+	GPIO_setOutputLowOnPin	(	GPIO_PORT_P6, GPIO_PIN6 + GPIO_PIN7 );		
+}
     
 }
 

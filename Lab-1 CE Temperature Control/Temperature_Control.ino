@@ -1,4 +1,3 @@
-/* Here will be the code for the first lab of the course of Control Engineering */
 /* CENTRO DE ENSEÑANZA TÉCNICA Y SUPERIOR
  * Engineering in Cybernetics Electronics
  * Subject: Control Engineering
